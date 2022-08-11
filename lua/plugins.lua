@@ -7,19 +7,18 @@ end
 vim.cmd [[packadd packer.nvim]]
 
 -- Lua
---require('onedark').load()
+-- require('onedark').load();
 
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
-  use {
-    'navarasu/onedark.nvim',
-    requires = { 'tjdevries/colorbuddy.nvim' }
-  }
-  use {
-    'svrana/neosolarized.nvim',
+  --  use 'navarasu/onedark.nvim'
+  --  use {
+  --   'svrana/neosolarized.nvim',
+  --   requires = { 'tjdevries/colorbuddy.nvim' }
+  -- }
 
-    requires = { 'tjdevries/colorbuddy.nvim' }
-  }
+  use 'folke/tokyonight.nvim'
+
   use 'nvim-lualine/lualine.nvim' -- Statusline
   use 'nvim-lua/plenary.nvim' -- Common utilities
   use 'onsails/lspkind-nvim' -- vscode-like pictograms
