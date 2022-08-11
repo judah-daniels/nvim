@@ -205,6 +205,20 @@ _G.packer_plugins = {
     path = "/home/judah/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
+  ["vim-markdown"] = {
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown",
+    url = "https://github.com/plasticboy/vim-markdown"
+  },
+  ["vim-tmux"] = {
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux",
+    url = "https://github.com/tmux-plugins/vim-tmux"
+  },
   ["zen-mode.nvim"] = {
     loaded = true,
     path = "/home/judah/.local/share/nvim/site/pack/packer/start/zen-mode.nvim",
@@ -217,6 +231,22 @@ time([[Defining packer_plugins]], false)
 time([[Config for nvim-surround]], true)
 try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
 time([[Config for nvim-surround]], false)
+vim.cmd [[augroup packer_load_aucmds]]
+vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown'}, { ft = "markdown" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
+vim.cmd("augroup END")
+vim.cmd [[augroup filetypedetect]]
+time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], true)
+vim.cmd [[source /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]]
+time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], false)
+time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], true)
+vim.cmd [[source /home/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]]
+time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], false)
+vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
 end)

@@ -1,4 +1,20 @@
+local utils = require("utils")
+local fn = vim.fn
+
+vim.g.package_home = fn.stdpath("data") .. "/site/pack/packer/"
+local packer_install_dir = vim.g.package_home .. "/opt/packer.nvim"
+
+local packer_repo = "https://github.com/wbthomason/packer.nvim"
+local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
+
+-- Auto-install packer in case it hasn't been installed.
+if fn.glob(packer_install_dir) == "" then
+  vim.api.nvim_echo({ { "Installing packer.nvim", "Type" } }, true, {})
+  vim.cmd(install_cmd)
+end
+
 local status, packer = pcall(require, "packer")
+
 if (not status) then
   print("Packer is not installed")
   return
@@ -16,6 +32,7 @@ packer.startup(function(use)
   --   'svrana/neosolarized.nvim',
   --   requires = { 'tjdevries/colorbuddy.nvim' }
   -- }
+
 
   use 'folke/tokyonight.nvim'
 
@@ -61,5 +78,18 @@ packer.startup(function(use)
       })
     end
   })
+
+  -- Another markdown plugin
+  use({ "plasticboy/vim-markdown", ft = { "markdown" } })
+
+  -- Since tmux is only available on Linux and Mac, we only enable these plugins
+  -- for Linux and Mac
+  if utils.executable("tmux") then
+    -- .tmux.conf syntax highlighting and setting check
+    use({ "tmux-plugins/vim-tmux", ft = { "tmux" } })
+  end
+  -- Vim tabular plugin for manipulate tabular, required by markdown plugins
+  use({ "godlygeek/tabular", cmd = { "Tabularize" } })
+
 
 end)
