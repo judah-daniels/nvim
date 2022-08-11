@@ -1,4 +1,4 @@
-print('loaded lua.init')
+print('nemjef')
 require('base')
 require('highlights')
 require('maps')

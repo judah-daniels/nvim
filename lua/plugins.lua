@@ -12,11 +12,11 @@ vim.cmd [[packadd packer.nvim]]
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   use {
-        'navarasu/onedark.nvim',
+    'navarasu/onedark.nvim',
     requires = { 'tjdevries/colorbuddy.nvim' }
   }
   use {
-        'svrana/neosolarized.nvim',
+    'svrana/neosolarized.nvim',
 
     requires = { 'tjdevries/colorbuddy.nvim' }
   }
@@ -54,4 +54,13 @@ packer.startup(function(use)
 
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim' -- For git blame & browse
+  use({
+    "kylechui/nvim-surround",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  })
+
 end)
