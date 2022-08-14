@@ -69,6 +69,12 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    config = { "\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0" },
+    loaded = true,
+    path = "/home/judah/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   LuaSnip = {
     loaded = true,
     path = "/home/judah/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -160,6 +166,11 @@ _G.packer_plugins = {
     path = "/home/judah/.local/share/nvim/site/pack/packer/start/nvim-surround",
     url = "https://github.com/kylechui/nvim-surround"
   },
+  ["nvim-tree.lua"] = {
+    loaded = true,
+    path = "/home/judah/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/kyazdani42/nvim-tree.lua"
+  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/home/judah/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
@@ -189,6 +200,15 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/judah/.local/share/nvim/site/pack/packer/start/prettier.nvim",
     url = "https://github.com/MunifTanjim/prettier.nvim"
+  },
+  tabular = {
+    after_files = { "/home/judah/.local/share/nvim/site/pack/packer/opt/tabular/after/plugin/TabularMaps.vim" },
+    commands = { "Tabularize" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/judah/.local/share/nvim/site/pack/packer/opt/tabular",
+    url = "https://github.com/godlygeek/tabular"
   },
   ["telescope-file-browser.nvim"] = {
     loaded = true,
@@ -227,25 +247,35 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+time([[Config for Comment.nvim]], false)
 -- Config for: nvim-surround
 time([[Config for nvim-surround]], true)
 try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
 time([[Config for nvim-surround]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file Tabularize lua require("packer.load")({'tabular'}, { cmd = "Tabularize", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+time([[Defining lazy-load commands]], false)
+
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown'}, { ft = "markdown" }, _G.packer_plugins)]]
+vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
-time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], true)
-vim.cmd [[source /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]]
-time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], false)
 time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], true)
 vim.cmd [[source /home/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]]
 time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], false)
+time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], true)
+vim.cmd [[source /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]]
+time([[Sourcing ftdetect script at: /home/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 

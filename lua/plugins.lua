@@ -91,5 +91,18 @@ packer.startup(function(use)
   -- Vim tabular plugin for manipulate tabular, required by markdown plugins
   use({ "godlygeek/tabular", cmd = { "Tabularize" } })
 
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icons
+    },
+  }
+
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
+  }
 
 end)
