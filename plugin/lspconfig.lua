@@ -83,6 +83,13 @@ nvim_lsp.sourcekit.setup {
   on_attach = on_attach,
 }
 
+nvim_lsp.svls.setup {
+  on_attach = on_attach,
+  filetypes = { "verilog", "systemverilog"},
+  cmd = { "svls"},
+  capabilities = capabilities
+}
+
 nvim_lsp.sumneko_lua.setup {
   on_attach = on_attach,
   settings = {

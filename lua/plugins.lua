@@ -105,4 +105,6 @@ packer.startup(function(use)
     end
   }
 
+  use 'LnL7/vim-nix'
+
 end)
