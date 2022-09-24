@@ -42,13 +42,13 @@ telescope.setup {
 
 telescope.load_extension("file_browser")
 
-vim.keymap.set('n', ';f',
-  function()
-    builtin.git_files({
-      no_ignore = false,
-      hidden = true
-    })
-  end)
+vim.keymap.set('n', ';f', function()
+  builtin.git_files({
+    no_ignore = false,
+    hidden = true
+  })
+end)
+
 vim.keymap.set('n', ';r', function()
   builtin.live_grep()
 end)
