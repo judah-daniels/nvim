@@ -1,9 +1,7 @@
-local utils = require("utils")
 local fn = vim.fn
 
 vim.g.package_home = fn.stdpath("data") .. "/site/pack/packer/"
 local packer_install_dir = vim.g.package_home .. "/opt/packer.nvim"
-
 local packer_repo = "https://github.com/wbthomason/packer.nvim"
 local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
 
@@ -20,90 +18,95 @@ if (not status) then
   return
 end
 
-vim.cmd [[packadd packer.nvim]]
-
--- Lua
--- require('onedark').load();
-
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
-  --  use 'navarasu/onedark.nvim'
-  --  use {
-  --   'svrana/neosolarized.nvim',
-  --   requires = { 'tjdevries/colorbuddy.nvim' }
-  -- }
+
+  use 'gbprod/substitute.nvim'
+  use 'mbbill/undotree'
+
+  use 'nvim-telescope/telescope.nvim'
+  use 'nvim-telescope/telescope-file-browser.nvim'
+
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'nvim-treesitter/playground'
+
+  -- LSP Zero Language Server Configuration
+  use {
+	  'VonHeikemen/lsp-zero.nvim',
+	  requires = {
+		  -- LSP Support
+		  {'neovim/nvim-lspconfig'},
+		  {'williamboman/mason.nvim'},
+		  {'williamboman/mason-lspconfig.nvim'},
+
+		  -- Autocompletion
+		  {'hrsh7th/nvim-cmp'},
+		  {'hrsh7th/cmp-buffer'},
+		  {'hrsh7th/cmp-path'},
+		  {'saadparwaiz1/cmp_luasnip'},
+		  {'hrsh7th/cmp-nvim-lsp'},
+		  {'hrsh7th/cmp-nvim-lua'},
+
+		  -- Snippets
+		  {'L3MON4D3/LuaSnip'},
+		  {'rafamadriz/friendly-snippets'},
+	  }
+  }
 
 
-  use 'folke/tokyonight.nvim'
+  -- Latex Support
+  use 'lervag/vimtex'
+  use 'KeitaNakamura/tex-conceal.vim'
+  use 'sirver/ultisnips'
+
+  -- Markdown Support
+  use({ "plasticboy/vim-markdown", ft = { "markdown" } })
+  use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
+
+  -- Haskell Support
+  use 'neovimhaskell/haskell-vim'
+
 
   use 'nvim-lualine/lualine.nvim' -- Statusline
   use 'nvim-lua/plenary.nvim' -- Common utilities
   use 'onsails/lspkind-nvim' -- vscode-like pictograms
-  use 'hrsh7th/cmp-buffer' -- nvim-cmp source for buffer words
-  use 'hrsh7th/cmp-nvim-lsp' -- nvim-cmp source for neovim's built-in LSP
-  use 'hrsh7th/nvim-cmp' -- Completion
-  use 'neovim/nvim-lspconfig' -- LSP
-  use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
-  use 'MunifTanjim/prettier.nvim' -- Prettier plugin for Neovim's built-in LSP client
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
 
-  use 'glepnir/lspsaga.nvim' -- LSP UIs
-  use 'L3MON4D3/LuaSnip'
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
+  -- use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
+  -- use 'MunifTanjim/prettier.nvim' -- Prettier plugin for Neovim's built-in LSP client
+
+  -- use 'sbdchd/neoformat'
+
   use 'kyazdani42/nvim-web-devicons' -- File icons
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-file-browser.nvim'
   use 'windwp/nvim-autopairs'
   use 'windwp/nvim-ts-autotag'
   use 'norcalli/nvim-colorizer.lua'
   use 'folke/zen-mode.nvim'
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  })
+
   use 'akinsho/nvim-bufferline.lua'
 
+
+  -- Git Support
+  use 'tpope/vim-fugitive'
   use 'lewis6991/gitsigns.nvim'
-  use 'dinhhuy258/git.nvim' -- For git blame & browse
-  use({
-    "kylechui/nvim-surround",
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
-  })
+  -- use 'dinhhuy258/git.nvim' -- For git blame & browse
 
-  -- Another markdown plugin
-  use({ "plasticboy/vim-markdown", ft = { "markdown" } })
+  use({ "tmux-plugins/vim-tmux", ft = { "tmux" } })
 
-  -- Since tmux is only available on Linux and Mac, we only enable these plugins
-  -- for Linux and Mac
-  if utils.executable("tmux") then
-    -- .tmux.conf syntax highlighting and setting check
-    use({ "tmux-plugins/vim-tmux", ft = { "tmux" } })
-  end
   -- Vim tabular plugin for manipulate tabular, required by markdown plugins
-  use({ "godlygeek/tabular", cmd = { "Tabularize" } })
+  use { 'godlygeek/tabular', cmd = { "Tabularize" } }
 
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icons
-    },
-  }
+  -- use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' }}
 
-  use {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end
-  }
+  use 'numToStr/Comment.nvim'
 
   use 'LnL7/vim-nix'
   use 'ThePrimeagen/vim-be-good'
+
+  use 'folke/which-key.nvim'
+
+  -- Color Schemes
+  use 'EdenEast/nightfox.nvim'
+  use 'folke/tokyonight.nvim'
+  use 'rose-pine/neovim'
+
 end)

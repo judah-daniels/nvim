@@ -1,0 +1,7 @@
+-- local status, neoformat = pcall(require, "neoformat")
+-- if (not status) then return end
+-- neoformat.setup({
+--
+-- })
+--
+-- vim.opt.neoformat_enabled_haskell = { 'stylishhaskell' }

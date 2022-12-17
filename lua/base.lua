@@ -1,11 +1,10 @@
-vim.cmd("autocmd!")
+-- vim.cmd("autocmd!")
 
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 
 vim.wo.number = true -- Show Gutter numbers
-
 vim.opt.mouse = a -- enable mouse
 
 vim.opt.title = true
@@ -32,13 +31,10 @@ vim.opt.wrap = true -- No Wrap lines
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
-vim.api.nvim_command('set nofoldenable')
 vim.opt.relativenumber = true
 
-
--- Undercurl
-vim.cmd([[let &t_Cs = "\e[4:3m"]])
-vim.cmd([[let &t_Ce = "\e[4:0m"]])
+-- vim.api.nvim_command('set nofoldenable')
+--
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {
@@ -48,3 +44,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append { 'r' }
+
+
+vim.cmd('colorscheme rose-pine')

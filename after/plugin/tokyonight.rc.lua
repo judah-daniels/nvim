@@ -1,4 +1,4 @@
-vim.g.tokyonight_style = "night"
+-- vim.g.tokyonight_style = "night"
 vim.g.tokyonight_italic_functions = true
 vim.g.tokyonight_transparent = true
 vim.g.tokyonight_transparent_sidebar = true
@@ -9,7 +9,8 @@ vim.g.tokyonight_colors = {
   fg_dark = "#586e75",
   fg_gutter = "#073642",
   bg_highlight = "#002b36",
-  comment = "#586e75",
+  -- comment = "#586e75",
+  comment = "#fff",
   blue = "#268bd2",
 
   cyan = "#2aa198",
@@ -26,4 +27,4 @@ vim.g.tokyonight_colors = {
 
 
 
-vim.cmd [[colorscheme tokyonight]]
+-- vim.cmd [[colorscheme tokyonight-night]]

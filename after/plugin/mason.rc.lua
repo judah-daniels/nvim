@@ -8,5 +8,5 @@ mason.setup({
 })
 
 lspconfig.setup {
-  ensure_installed = { "sumneko_lua", "tailwindcss", "haskell-lanugage-server", "texlab"  },
+  ensure_installed = { "sumneko_lua", "tailwindcss", "hls", "texlab" },
 }

@@ -12,7 +12,7 @@ prettier.setup {
     "json",
     "scss",
     "less",
-    "haskell",
+    -- "haskell",
     "elm",
     "nix",
     "systemverilog",
