@@ -66,7 +66,6 @@ packer.startup(function(use)
   -- Haskell Support
   use 'neovimhaskell/haskell-vim'
 
-
   use 'nvim-lualine/lualine.nvim' -- Statusline
   use 'nvim-lua/plenary.nvim' -- Common utilities
   use 'onsails/lspkind-nvim' -- vscode-like pictograms
@@ -83,15 +82,9 @@ packer.startup(function(use)
   use 'folke/zen-mode.nvim'
 
   use 'akinsho/nvim-bufferline.lua'
-  use({
-    "kylechui/nvim-surround",
-    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
-    end
-  })
+
+  -- Surround - remove brackets etc
+  use 'kylechui/nvim-surround'
 
   -- Git Support
   use 'tpope/vim-fugitive'
