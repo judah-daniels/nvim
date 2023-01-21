@@ -4,7 +4,6 @@ vim.g.package_home = fn.stdpath("data") .. "/site/pack/packer/"
 local packer_install_dir = vim.g.package_home .. "/opt/packer.nvim"
 local packer_repo = "https://github.com/wbthomason/packer.nvim"
 local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
-
 -- Auto-install packer in case it hasn't been installed.
 if fn.glob(packer_install_dir) == "" then
   vim.api.nvim_echo({ { "Installing packer.nvim", "Type" } }, true, {})
@@ -54,11 +53,14 @@ packer.startup(function(use)
   }
 
 
+  use 'sdiehl/vim-ormolu'
+
   -- Latex Support
   use 'lervag/vimtex'
   use 'KeitaNakamura/tex-conceal.vim'
   use 'sirver/ultisnips'
 
+  use 'gbrlsnchs/telescope-lsp-handlers.nvim'
   -- Markdown Support
   use({ "plasticboy/vim-markdown", ft = { "markdown" } })
   use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
@@ -110,4 +112,5 @@ packer.startup(function(use)
   use 'folke/tokyonight.nvim'
   use 'rose-pine/neovim'
 
+  use 'nyoom-engineering/nyoom.nvim'
 end)

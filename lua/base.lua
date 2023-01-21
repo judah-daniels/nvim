@@ -33,8 +33,14 @@ vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.relativenumber = true
 
--- vim.api.nvim_command('set nofoldenable')
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+vim.g.ormolu_command="fourmolu"
+vim.g.ormolu_options={"--stdin-input-file `git rev-parse --show-toplevel`"}
+-- vim.g.ormolu_options={"--no-cabal"}
+vim.g.ormolu_suppress_stderr=1
 --
+vim.opt.foldenable = false
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {

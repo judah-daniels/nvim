@@ -36,7 +36,7 @@ telescope.setup {
 }
 
 telescope.load_extension("file_browser")
-
+telescope.load_extension('lsp_handlers')
 vim.keymap.set('n', ';f', function()
   builtin.git_files({
     no_ignore = false,
