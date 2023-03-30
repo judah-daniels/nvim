@@ -209,6 +209,11 @@ _G.packer_plugins = {
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
+  ["nyoom.nvim"] = {
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/nyoom.nvim",
+    url = "https://github.com/nyoom-engineering/nyoom.nvim"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -223,6 +228,14 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["rainbow_csv.nvim"] = {
+    config = { "\27LJ\2\n9\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\16rainbow_csv\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/opt/rainbow_csv.nvim",
+    url = "https://github.com/cameron-wags/rainbow_csv.nvim"
   },
   ["substitute.nvim"] = {
     loaded = true,
@@ -242,6 +255,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",
     url = "https://github.com/nvim-telescope/telescope-file-browser.nvim"
+  },
+  ["telescope-lsp-handlers.nvim"] = {
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/telescope-lsp-handlers.nvim",
+    url = "https://github.com/gbrlsnchs/telescope-lsp-handlers.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -278,6 +296,11 @@ _G.packer_plugins = {
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
   },
+  ["vim-jukit"] = {
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/vim-jukit",
+    url = "https://github.com/luk400/vim-jukit"
+  },
   ["vim-markdown"] = {
     loaded = false,
     needs_bufread = true,
@@ -289,6 +312,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/vim-nix",
     url = "https://github.com/LnL7/vim-nix"
+  },
+  ["vim-ormolu"] = {
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/vim-ormolu",
+    url = "https://github.com/sdiehl/vim-ormolu"
   },
   ["vim-tmux"] = {
     loaded = false,
@@ -315,6 +343,35 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+local module_lazy_loads = {
+  ["^rainbow_csv"] = "rainbow_csv.nvim",
+  ["^rainbow_csv%.fns"] = "rainbow_csv.nvim"
+}
+local lazy_load_called = {['packer.load'] = true}
+local function lazy_load_module(module_name)
+  local to_load = {}
+  if lazy_load_called[module_name] then return nil end
+  lazy_load_called[module_name] = true
+  for module_pat, plugin_name in pairs(module_lazy_loads) do
+    if not _G.packer_plugins[plugin_name].loaded and string.match(module_name, module_pat) then
+      to_load[#to_load + 1] = plugin_name
+    end
+  end
+
+  if #to_load > 0 then
+    require('packer.load')(to_load, {module = module_name}, _G.packer_plugins)
+    local loaded_mod = package.loaded[module_name]
+    if loaded_mod then
+      return function(modname) return loaded_mod end
+    end
+  end
+end
+
+if not vim.g.packer_custom_loader_enabled then
+  table.insert(package.loaders, 1, lazy_load_module)
+  vim.g.packer_custom_loader_enabled = true
+end
+
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
@@ -322,7 +379,7 @@ pcall(vim.api.nvim_create_user_command, 'Tabularize', function(cmdargs)
           require('packer.load')({'tabular'}, { cmd = 'Tabularize', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
         end,
         {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'tabular'}, { cmd = 'Tabularize' }, _G.packer_plugins)
+          require('packer.load')({'tabular'}, {}, _G.packer_plugins)
           return vim.fn.getcompletion('Tabularize ', 'cmdline')
       end})
 time([[Defining lazy-load commands]], false)
@@ -331,8 +388,15 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType csv_whitespace ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv_whitespace" }, _G.packer_plugins)]]
+vim.cmd [[au FileType csv_pipe ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv_pipe" }, _G.packer_plugins)]]
+vim.cmd [[au FileType rfc_csv ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "rfc_csv" }, _G.packer_plugins)]]
+vim.cmd [[au FileType rfc_semicolon ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "rfc_semicolon" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown'}, { ft = "markdown" }, _G.packer_plugins)]]
+vim.cmd [[au FileType csv ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv" }, _G.packer_plugins)]]
+vim.cmd [[au FileType tsv ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "tsv" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
+vim.cmd [[au FileType csv_semicolon ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv_semicolon" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

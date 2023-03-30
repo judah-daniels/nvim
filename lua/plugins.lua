@@ -19,7 +19,26 @@ end
 
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
-
+  use {
+      'cameron-wags/rainbow_csv.nvim',
+      config = function()
+          require 'rainbow_csv'.setup()
+      end,
+      -- optional lazy-loading below
+      module = {
+          'rainbow_csv',
+          'rainbow_csv.fns'
+      },
+      ft = {
+          'csv',
+          'tsv',
+          'csv_semicolon',
+          'csv_whitespace',
+          'csv_pipe',
+          'rfc_csv',
+          'rfc_semicolon'
+      }
+  }
   use 'gbprod/substitute.nvim'
   use 'mbbill/undotree'
 
@@ -64,6 +83,8 @@ packer.startup(function(use)
   -- Markdown Support
   use({ "plasticboy/vim-markdown", ft = { "markdown" } })
   use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
+
+  use 'luk400/vim-jukit'
 
   -- Haskell Support
   use 'neovimhaskell/haskell-vim'
