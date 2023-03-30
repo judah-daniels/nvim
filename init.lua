@@ -3,6 +3,7 @@ require('highlights')
 require('maps')
 require('plugins')
 require('ltex')
+require('lspconfig')
 
 local has = function(x)
   return vim.fn.has(x) == 1

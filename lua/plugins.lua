@@ -48,27 +48,35 @@ packer.startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'nvim-treesitter/playground'
 
-  -- LSP Zero Language Server Configuration
   use {
     'VonHeikemen/lsp-zero.nvim',
+    branch = 'v1.x',
     requires = {
       -- LSP Support
-      { 'neovim/nvim-lspconfig' },
-      { 'williamboman/mason.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
+      {'neovim/nvim-lspconfig'},             -- Required
+      {                                      -- Optional
+        'williamboman/mason.nvim',
+        run = function()
+          pcall(vim.cmd, 'MasonUpdate')
+        end,
+      },
+      {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
       -- Autocompletion
-      { 'hrsh7th/nvim-cmp' },
+      {'hrsh7th/nvim-cmp'},     -- Required
+      {'hrsh7th/cmp-nvim-lsp'}, -- Required
+      {'L3MON4D3/LuaSnip'},     -- Required
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-path' },
       { 'saadparwaiz1/cmp_luasnip' },
-      { 'hrsh7th/cmp-nvim-lsp' },
       { 'hrsh7th/cmp-nvim-lua' },
 
       -- Snippets
       { 'L3MON4D3/LuaSnip' },
-      { 'rafamadriz/friendly-snippets' },
+      { 'rafamadriz/friendly-snippets' }
+
     }
+
   }
 
 
@@ -84,7 +92,7 @@ packer.startup(function(use)
   use({ "plasticboy/vim-markdown", ft = { "markdown" } })
   use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
 
-  use 'luk400/vim-jukit'
+  -- use 'luk400/vim-jukit'
 
   -- Haskell Support
   use 'neovimhaskell/haskell-vim'
@@ -133,5 +141,4 @@ packer.startup(function(use)
   use 'folke/tokyonight.nvim'
   use 'rose-pine/neovim'
 
-  use 'nyoom-engineering/nyoom.nvim'
 end)

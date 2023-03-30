@@ -53,3 +53,5 @@ vim.opt.formatoptions:append { 'r' }
 
 
 vim.cmd('colorscheme rose-pine')
+
+vim.opt.mouse = a -- enable mouse
