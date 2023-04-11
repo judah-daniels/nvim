@@ -41,7 +41,7 @@ vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
 keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 -- Git
-keymap.set("n", "<leader>gs", vim.cmd.Git)
+keymap.set("n", "<leader>g", vim.cmd.Git)
 
 -- Show all diagnostics on current line in floating window
 -- vim.api.nvim_set_keymap('n', '<Leader>dd', ':lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
