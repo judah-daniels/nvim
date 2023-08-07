@@ -5,7 +5,7 @@ vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 
 vim.wo.number = true -- Show Gutter numbers
-vim.opt.mouse = a -- enable mouse
+vim.opt.mouse = "a" -- enable mouse
 
 vim.opt.title = true
 vim.opt.autoindent = true
@@ -49,9 +49,9 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 })
 
 -- Add asterisks in block comments
-vim.opt.formatoptions:append { 'r' }
-
+-- t_out_hist
+--   vim.opt.formatoptions:append { 'r' }
+-- o
 
 vim.cmd('colorscheme rose-pine')
 
-vim.opt.mouse = a -- enable mouse

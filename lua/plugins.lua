@@ -45,6 +45,7 @@ packer.startup(function(use)
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-file-browser.nvim'
 
+
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'nvim-treesitter/playground'
 
@@ -127,8 +128,12 @@ packer.startup(function(use)
   -- Vim tabular plugin for manipulate tabular, required by markdown plugins
   use { 'godlygeek/tabular', cmd = { "Tabularize" } }
 
-  -- use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' }}
+  use { 'mlr-msft/vim-loves-dafny' }
 
+  use { 'benknoble/vim-dafny' }
+
+  use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' }}
+  use 'nvim-tree/nvim-web-devicons'
   use 'numToStr/Comment.nvim'
 
   use 'LnL7/vim-nix'
@@ -140,5 +145,7 @@ packer.startup(function(use)
   use 'EdenEast/nightfox.nvim'
   use 'folke/tokyonight.nvim'
   use 'rose-pine/neovim'
+
+  use 'habamax/vim-asciidoctor'
 
 end)
