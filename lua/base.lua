@@ -53,5 +53,5 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 --   vim.opt.formatoptions:append { 'r' }
 -- o
 
-vim.cmd('colorscheme rose-pine')
+-- vim.cmd('colorscheme rose-pine')
 

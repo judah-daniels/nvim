@@ -19,6 +19,7 @@ end
 
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
+
   use {
       'cameron-wags/rainbow_csv.nvim',
       config = function()
@@ -39,11 +40,7 @@ packer.startup(function(use)
           'rfc_semicolon'
       }
   }
-  use 'gbprod/substitute.nvim'
-  use 'mbbill/undotree'
 
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-file-browser.nvim'
 
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -80,32 +77,20 @@ packer.startup(function(use)
 
   }
 
-
-  use 'sdiehl/vim-ormolu'
-
-  -- Latex Support
-  use 'lervag/vimtex'
-  use 'KeitaNakamura/tex-conceal.vim'
-  use 'sirver/ultisnips'
-
   use 'gbrlsnchs/telescope-lsp-handlers.nvim'
-  -- Markdown Support
-  use({ "plasticboy/vim-markdown", ft = { "markdown" } })
-  use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
 
-  -- use 'luk400/vim-jukit'
+  -- APPEARANCE AND NAVIGATION
+  -- Substitute: sxw sxw to swap words etc
+  use 'gbprod/substitute.nvim'
+  use 'mbbill/undotree'
 
-  -- Haskell Support
-  use 'neovimhaskell/haskell-vim'
+  use 'nvim-telescope/telescope.nvim'
+  use 'nvim-telescope/telescope-file-browser.nvim'
+  use({ "tmux-plugins/vim-tmux", ft = { "tmux" } })
 
   use 'nvim-lualine/lualine.nvim' -- Statusline
   use 'nvim-lua/plenary.nvim' -- Common utilities
   use 'onsails/lspkind-nvim' -- vscode-like pictograms
-
-  -- use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
-  -- use 'MunifTanjim/prettier.nvim' -- Prettier plugin for Neovim's built-in LSP client
-
-  -- use 'sbdchd/neoformat'
 
   use 'kyazdani42/nvim-web-devicons' -- File icons
   use 'windwp/nvim-autopairs'
@@ -123,22 +108,26 @@ packer.startup(function(use)
   use 'lewis6991/gitsigns.nvim'
   -- use 'dinhhuy258/git.nvim' -- For git blame & browse
 
-  use({ "tmux-plugins/vim-tmux", ft = { "tmux" } })
 
-  -- Vim tabular plugin for manipulate tabular, required by markdown plugins
-  use { 'godlygeek/tabular', cmd = { "Tabularize" } }
-
+  -- PROGRAMMING LANGUAGE PLUGINS
+  --
+  -- DAFNY
   use { 'mlr-msft/vim-loves-dafny' }
-
   use { 'benknoble/vim-dafny' }
 
+  -- HASKELL
+  use 'neovimhaskell/haskell-vim'
+  use 'sdiehl/vim-ormolu'
+
   use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' }}
-  use 'nvim-tree/nvim-web-devicons'
+
+  -- Comment Plugin gcc to comment a line
   use 'numToStr/Comment.nvim'
 
+  -- VIM NIX integration
   use 'LnL7/vim-nix'
-  use 'ThePrimeagen/vim-be-good'
 
+  -- WHICH KEY: show key bindings
   use 'folke/which-key.nvim'
 
   -- Color Schemes
@@ -146,6 +135,25 @@ packer.startup(function(use)
   use 'folke/tokyonight.nvim'
   use 'rose-pine/neovim'
 
+  -- ASCIIDOC PLUGINS 
   use 'habamax/vim-asciidoctor'
+
+  use {'shuntaka9576/preview-asciidoc.vim',
+    requires = {
+  { "vim-denops/denops.vim"}
+    }
+  }
+
+  -- Latex Support
+  use 'lervag/vimtex'
+  use 'KeitaNakamura/tex-conceal.vim'
+  use 'sirver/ultisnips'
+
+  -- Markdown Support
+  use({ "plasticboy/vim-markdown", ft = { "markdown" } })
+  use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
+  -- Vim tabular plugin for manipulate tabular, required by markdown plugins
+  use { 'godlygeek/tabular', cmd = { "Tabularize" } }
+
 
 end)
