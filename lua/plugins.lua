@@ -111,6 +111,14 @@ packer.startup(function(use)
 
   -- PROGRAMMING LANGUAGE PLUGINS
   --
+  -- C++
+  -- NVIM DAP - debugging protocol
+  use 'mfussenegger/nvim-dap'
+  use 'jay-babu/mason-nvim-dap.nvim'
+
+  use "rcarriga/nvim-dap-ui"
+
+
   -- DAFNY
   use { 'mlr-msft/vim-loves-dafny' }
   use { 'benknoble/vim-dafny' }

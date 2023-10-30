@@ -52,4 +52,6 @@ keymap.set("n", "<leader>g", vim.cmd.Git)
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 
-vim.keymap.set("n", "<leader>n", vim.cmd.NvimTreeToggle)
+-- DEBUGGER
+
+
