@@ -15,8 +15,10 @@ whichKey.register({
   ["[d"] = { "Go to previous error/ warning" },
   ["]d"] = { "Go to next error/ warning" },
   ["K"] = { "Hover LSP info" },
-  ["gi"] = { "Show implmentation" },
+  ["gi"] = { "Show implementation" },
   ["go"] = { "Show type definition" },
+  ["gD"] = { "Show type declaration" },
+  ["gd"] = { "Go to type definition" },
   ["<C-k>"] = { "Show type signature" },
   ["<leader>wl"] = { "Show workspace folders" },
   ["<leader>rn"] = { "LSP Rename" },
@@ -34,5 +36,4 @@ whichKey.register({
 
   ["<leader>u"] = { "Undotree toggle" },
   ["<leader>g"] = { "Open Git" }
-
 })

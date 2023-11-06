@@ -48,6 +48,8 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   command = "set nopaste"
 })
 
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+
 -- Add asterisks in block comments
 -- t_out_hist
 --   vim.opt.formatoptions:append { 'r' }

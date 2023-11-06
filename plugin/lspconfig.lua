@@ -21,12 +21,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Buffer local mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts) -- Do this
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts) -- Do this
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts) -- Do this
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)-- Do this
-    vim.keymap.set('n', 'go', vim.lsp.buf.type_definition, opts)-- Do this
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)-- Do this
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)       -- Do this
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)        -- Do this
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)              -- Do this
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)    -- Do this
+    vim.keymap.set('n', 'go', vim.lsp.buf.type_definition, opts)   -- Do this
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts) -- Do this
     -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
     -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
     vim.keymap.set('n', '<leader>wl', function()
@@ -39,7 +39,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.buf.format { async = true }
     end, opts)
   end,
-})vim.lsp.set_log_level("debug")
+})
+vim.lsp.set_log_level("debug")
 
 
 protocol.CompletionItemKind = {
@@ -75,64 +76,18 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
-
-nvim_lsp.ltex.setup {
-  on_attach = on_attach,
-  capabilities = capabilities
-}
-
-nvim_lsp.hls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    haskell = {
-      cabalFormattingProvider = "cabalfmt",
-      formattingProvider = "fourmolu"
-    }
-  }
-}
-
--- require'lspconfig'.hls.setup{}
-
-nvim_lsp.flow.setup {
-  on_attach = on_attach,
-  capabilities = capabilities
-}
-nvim_lsp.pylsp.setup {}
-
-nvim_lsp.tsserver.setup {
-  on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-  cmd = { "typescript-language-server", "--stdio" },
-  capabilities = capabilities
-}
-
-nvim_lsp.sourcekit.setup {
-  on_attach = on_attach,
-}
-
-nvim_lsp.svls.setup {
-  on_attach = on_attach,
-  filetypes = { "verilog", "systemverilog" },
-  cmd = { "svls" },
-  capabilities = capabilities
-}
-
-
-nvim_lsp.tailwindcss.setup {}
-
-require 'lspconfig'.dafny.setup{}
-
+-- Dafny set up (not available in mason)
+require 'lspconfig'.dafny.setup {}
 nvim_lsp.dafny.setup {}
 
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-  underline = true,
-  update_in_insert = false,
-  virtual_text = { spacing = 4, prefix = "●" },
-  severity_sort = true,
-}
+    underline = true,
+    update_in_insert = false,
+    virtual_text = { spacing = 4, prefix = "●" },
+    severity_sort = true,
+  }
 )
 
 -- Diagnostic symbols in the sign column (gutter)

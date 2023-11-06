@@ -109,6 +109,11 @@ _G.packer_plugins = {
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["denops.vim"] = {
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/denops.vim",
+    url = "https://github.com/vim-denops/denops.vim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -169,11 +174,6 @@ _G.packer_plugins = {
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
   },
-  ["nvim-bufferline.lua"] = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/nvim-bufferline.lua",
-    url = "https://github.com/akinsho/nvim-bufferline.lua"
-  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/nvim-cmp",
@@ -193,11 +193,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/nvim-surround",
     url = "https://github.com/kylechui/nvim-surround"
-  },
-  ["nvim-tree.lua"] = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
-    url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -219,22 +214,19 @@ _G.packer_plugins = {
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
-  playground = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/playground",
-    url = "https://github.com/nvim-treesitter/playground"
-  },
   ["plenary.nvim"] = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["preview-asciidoc.vim"] = {
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/preview-asciidoc.vim",
+    url = "https://github.com/shuntaka9576/preview-asciidoc.vim"
+  },
   ["rainbow_csv.nvim"] = {
-    config = { "\27LJ\2\n9\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\16rainbow_csv\frequire\0" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/opt/rainbow_csv.nvim",
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/rainbow_csv.nvim",
     url = "https://github.com/cameron-wags/rainbow_csv.nvim"
   },
   ["substitute.nvim"] = {
@@ -290,11 +282,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/vim-asciidoctor",
     url = "https://github.com/habamax/vim-asciidoctor"
-  },
-  ["vim-be-good"] = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/vim-be-good",
-    url = "https://github.com/ThePrimeagen/vim-be-good"
   },
   ["vim-dafny"] = {
     loaded = true,
@@ -353,35 +340,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
-local module_lazy_loads = {
-  ["^rainbow_csv"] = "rainbow_csv.nvim",
-  ["^rainbow_csv%.fns"] = "rainbow_csv.nvim"
-}
-local lazy_load_called = {['packer.load'] = true}
-local function lazy_load_module(module_name)
-  local to_load = {}
-  if lazy_load_called[module_name] then return nil end
-  lazy_load_called[module_name] = true
-  for module_pat, plugin_name in pairs(module_lazy_loads) do
-    if not _G.packer_plugins[plugin_name].loaded and string.match(module_name, module_pat) then
-      to_load[#to_load + 1] = plugin_name
-    end
-  end
-
-  if #to_load > 0 then
-    require('packer.load')(to_load, {module = module_name}, _G.packer_plugins)
-    local loaded_mod = package.loaded[module_name]
-    if loaded_mod then
-      return function(modname) return loaded_mod end
-    end
-  end
-end
-
-if not vim.g.packer_custom_loader_enabled then
-  table.insert(package.loaders, 1, lazy_load_module)
-  vim.g.packer_custom_loader_enabled = true
-end
-
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
@@ -398,15 +356,8 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType csv_whitespace ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv_whitespace" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown'}, { ft = "markdown" }, _G.packer_plugins)]]
-vim.cmd [[au FileType rfc_semicolon ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "rfc_semicolon" }, _G.packer_plugins)]]
-vim.cmd [[au FileType rfc_csv ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "rfc_csv" }, _G.packer_plugins)]]
-vim.cmd [[au FileType csv_pipe ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv_pipe" }, _G.packer_plugins)]]
-vim.cmd [[au FileType csv ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv" }, _G.packer_plugins)]]
-vim.cmd [[au FileType tsv ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "tsv" }, _G.packer_plugins)]]
-vim.cmd [[au FileType csv_semicolon ++once lua require("packer.load")({'rainbow_csv.nvim'}, { ft = "csv_semicolon" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

@@ -43,15 +43,5 @@ keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- Git
 keymap.set("n", "<leader>g", vim.cmd.Git)
 
--- Show all diagnostics on current line in floating window
--- vim.api.nvim_set_keymap('n', '<Leader>dd', ':lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>d[', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>d]', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
-
 -- Undo Tree
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-
-
--- DEBUGGER
-
-
