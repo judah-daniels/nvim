@@ -1,9 +1,9 @@
 --- BEFORE USING, change language entries to fit your needs.
 
-vim.g.tex_flavor='latex'
+vim.g.tex_flavor = 'latex'
 vim.g.vimtex_view_method = 'zathura'
 vim.g.vimtex_view_skim_sync = 1
-vim.g.vimtex_view_skim_activate = 1 
+vim.g.vimtex_view_skim_activate = 1
 
 
 
@@ -12,13 +12,13 @@ local configs = require 'lspconfig/configs'
 local util = require 'lspconfig/util'
 
 local Dictionary_file = {
-  ["pt-BR"] = { "/Users/Judah/.config/nvim/spell/dictionary.txt" } -- there is another way to find ~/.config/nvim ?
+  ["pt-BR"] = { os.getenv("HOME") .. "/.config/nvim/spell/dictionary.txt" } -- there is another way to find ~/.config/nvim ?
 }
 local DisabledRules_file = {
-  ["pt-BR"] = { "/Users/Judah/.config/nvim/spell/disable.txt" } -- there is another way to find ~/.config/nvim ?
+  ["pt-BR"] = { os.getenv("HOME") .. "/.config/nvim/spell/disable.txt" } -- there is another way to find ~/.config/nvim ?
 }
 local FalsePositives_file = {
-  ["pt-BR"] = { "/Users/Judah/.config/nvim/spell/false.txt" } -- there is another way to find ~/.config/nvim ?
+  ["pt-BR"] = { os.getenv("HOME") .. "/.config/nvim/spell/false.txt" } -- there is another way to find ~/.config/nvim ?
 }
 
 local function readFiles(files)
@@ -86,7 +86,6 @@ local function updateConfig(lang, configtype)
       else
         return vim.notify("Error when reading disabledRules config, check it")
       end
-
     elseif configtype == 'falsePositive' then
       if client.config.settings.ltex.hiddenFalsePositives then
         client.config.settings.ltex.hiddenFalsePositives = {
@@ -132,11 +131,11 @@ end
 if not lspconfig.ltex then
   configs.ltex = {
     default_config = {
-      cmd = { "ltex-ls" };
-      filetypes = { 'tex', 'bib', 'md' };
+      cmd = { "ltex-ls" },
+      filetypes = { 'tex', 'bib', 'md' },
       root_dir = function(filename)
         return util.path.dirname(filename)
-      end;
+      end,
       settings = {
         ltex = {
           enabled = { "latex", "tex", "bib", "md" },
@@ -147,23 +146,23 @@ if not lspconfig.ltex then
           additionalRules = {
             enablePickyRules = true,
             motherTongue = "pt-BR",
-          };
+          },
           -- trace = { server = "verbose"};
           -- ['ltex-ls'] = {
           --     logLevel = "finest",
           -- },
           dictionary = {
             ["pt-BR"] = readFiles(Dictionary_file["pt-BR"] or {}),
-          };
+          },
           disabledRules = {
             ["pt-BR"] = readFiles(DisabledRules_file["pt-BR"] or {}),
-          };
+          },
           hiddenFalsePositives = {
             ["pt-BR"] = readFiles(FalsePositives_file["pt-BR"] or {}),
-          };
+          },
         },
-      };
-    };
+      },
+    },
   };
 end
 
@@ -193,7 +192,6 @@ vim.lsp.buf.execute_command = function(command)
         addTo(filetype, lang, findLtexFiles(filetype, lang), rule)
       end
     end
-
   elseif command.command == '_ltex.hideFalsePositives' then
     local arg = command.arguments[1].falsePositives -- can I really access like this?
     for lang, rules in pairs(arg) do
@@ -206,4 +204,3 @@ vim.lsp.buf.execute_command = function(command)
     orig_execute_command(command)
   end
 end
-
