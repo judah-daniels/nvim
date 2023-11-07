@@ -17,7 +17,7 @@ This config contains the following plugins:
 
 ## Installation
 
-This guide is made for MacOS specifically, but the config can work on Windows/Linux too.
+This guide is made for MacOS specifically, but the config can work on Windows/Linux too. If homebrew is not installed, [install it](https://brew.sh/).
 
 First install Neovim (>= 0.8).
 
