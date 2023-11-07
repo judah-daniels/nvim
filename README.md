@@ -28,18 +28,17 @@ First install Neovim (>= 0.8).
 Install all requirements:
 ```sh
 # General Requirements
-> brew install neovim tree-sitter lua-lanugage-server prettier texlab ripgrep
+> brew install tree-sitter lua-lanugage-server prettier texlab ripgrep asciidoctor fzf
 ```
-
-Clone this repository to `~/.config/nvim/`:
+Clone this repository somewhere safe. 
 
 ```bash
-> cd ~/.config/
 > git clone https://github.com/judah-daniels/nvim
 ```
 
-You may wish to instead first fork this repository, then clone your fork.
+Run `dev` to link `~/.config/nvim/` to the cloned repo.
 
+You may wish to instead first fork this repository, then clone your fork.
 
 ## Key-Bindings
 
