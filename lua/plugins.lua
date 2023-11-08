@@ -102,6 +102,8 @@ packer.startup(function(use)
   use 'folke/tokyonight.nvim'
   use 'rose-pine/neovim' -- my favourite
 
+  use 'f-person/auto-dark-mode.nvim'
+
   -- ASCIIDOC PLUGINS
   use 'habamax/vim-asciidoctor'
 
