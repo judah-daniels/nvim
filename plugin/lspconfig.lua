@@ -1,3 +1,8 @@
+-- must be setup before lspconfig
+require("neodev").setup({
+  -- add any options here, or leave empty to use the default settings
+})
+
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 

@@ -137,4 +137,10 @@ packer.startup(function(use)
   use { 'godlygeek/tabular', cmd = { "Tabularize" } }
 
   use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
+
+  -- DAP
+  use 'jay-babu/mason-nvim-dap.nvim'
+  use 'mfussenegger/nvim-dap'
+  use 'folke/neodev.nvim'
+  use 'rcarriga/nvim-dap-ui'
 end)
