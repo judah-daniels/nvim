@@ -135,4 +135,6 @@ packer.startup(function(use)
   use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
   -- Vim tabular plugin for manipulate tabular, required by markdown plugins
   use { 'godlygeek/tabular', cmd = { "Tabularize" } }
+
+  use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
 end)
