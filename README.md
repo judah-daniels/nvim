@@ -12,6 +12,7 @@ This config contains the following plugins:
 - Mason: language server management for linting, formatting etc.
 - Telescope: File browsing, fuzzy search through repository etc.
 - Git-signs and Fugitive for Git integration.
+- DAP: Debug adapter Protocol
 - Undo-Tree: View undo tree.
 - Various other useful plugins.
 
@@ -101,6 +102,16 @@ Don't worry about learning all of these. I'd recommend just using a few to begin
 - Comment
     - `gc` : Comment Operator 
     - E.g. Use `gcc` to comment/uncomment a line. Use `gc` to comment/uncomment a selection.
+
+#### Debugging
+- Currently the debugger is configured to use llvm's lldb-vscode on mac for C++. 
+- `,db` : Toggle Debugging windows
+- `,k` : View value of expression under cursor
+- `,s` : Step Into
+- `,n` : Step Over
+- `,o` : Step Out
+- `,b` : Toggle BreakPoint
+- `,dc` : Continue running
 
 #### MarkDown and AsciiDoc
 Type `:MarkDownPreview` or `:AsciidocPreview` to get a live preview of the markdown/asciidoc file you're currently editing. These use your default web-browser.

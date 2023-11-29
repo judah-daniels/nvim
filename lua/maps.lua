@@ -47,4 +47,12 @@ keymap.set("n", "<leader>g", vim.cmd.Git)
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 -- debug
-keymap.set("n", "<leader>db", ':lua require("dapui").toggle()')
+keymap.set("n", "<leader>db", ':lua require("dapui").toggle()<CR>')
+
+keymap.set("n", "<leader>k", ':lua require("dapui").eval()<CR>')
+
+keymap.set("n", "<leader>s", ':DapStepInto<CR>')
+keymap.set("n", "<leader>n", ':DapStepOver<CR>')
+keymap.set("n", "<leader>o", ':DapStepOut<CR>')
+keymap.set("n", "<leader>b", ':DapToggleBreakpoint<CR>')
+keymap.set("n", "<leader>dc", ':DapContinue<CR>')
