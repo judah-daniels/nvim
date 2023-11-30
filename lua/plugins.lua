@@ -143,4 +143,9 @@ packer.startup(function(use)
   use 'mfussenegger/nvim-dap'
   use 'folke/neodev.nvim'
   use 'rcarriga/nvim-dap-ui'
+
+  -- Tasks
+  use 'rcarriga/nvim-notify'
+  use 'stevearc/dressing.nvim'
+  use 'stevearc/overseer.nvim'
 end)
