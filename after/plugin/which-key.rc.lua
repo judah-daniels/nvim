@@ -26,6 +26,17 @@ whichKey.register({
   ["<leader>f"] = { "LSP Format" },
   ["<leader>q"] = { "LSP list errors" },
 
+  ["<leader>hS"] = { "GitSigns Stage Buffer" },
+  ["<leader>ha"] = { "GitSigns Stage Hunk" },
+  ["<leader>hu"] = { "GitSigns Undo Stage Hunk" },
+  ["<leader>hR"] = { "GitSigns Reset Buffer" },
+  ["<leader>hp"] = { "GitSigns Preview Hunk" },
+  ["<leader>hb"] = { "GitSigns Blame Line" },
+  ["<leader>tb"] = { "GitSigns Current line blame" },
+  ["<leader>hd"] = { "GitSigns Diff this" },
+  ["<leader>hD"] = { "GitSigns Diff this with somthing?" },
+  ["<leader>td"] = { "GitSigns Toggle deleted" },
+
   [";"] = { name = "+Telescope" },
   [";f"] = { "<cmd>Telescope git_files<cr>", "Find Git File" },
   [";b"] = { "Open Recent File" },

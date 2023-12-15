@@ -27,4 +27,4 @@ for _, ls in ipairs(language_servers) do
   })
 end
 
-require('ufo').setup()
+ufo.setup()

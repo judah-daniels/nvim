@@ -56,3 +56,5 @@ keymap.set("n", "<leader>n", ':DapStepOver<CR>')
 keymap.set("n", "<leader>o", ':DapStepOut<CR>')
 keymap.set("n", "<leader>b", ':DapToggleBreakpoint<CR>')
 keymap.set("n", "<leader>dc", ':DapContinue<CR>')
+
+keymap.set("n", "<leader><Space>", ':OverseerRun<CR>')

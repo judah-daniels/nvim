@@ -26,12 +26,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Buffer local mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)       -- Do this
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)        -- Do this
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)              -- Do this
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)    -- Do this
-    vim.keymap.set('n', 'go', vim.lsp.buf.type_definition, opts)   -- Do this
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts) -- Do this
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)             -- Do this
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)              -- Do this
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)                    -- Do this
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)          -- Do this
+    vim.keymap.set('n', '<leader>e', ':Telescope diagnostics<CR>', opts) -- Do this
+    vim.keymap.set('n', 'go', vim.lsp.buf.type_definition, opts)         -- Do this
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)       -- Do this
     -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
     -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
     vim.keymap.set('n', '<leader>wl', function()

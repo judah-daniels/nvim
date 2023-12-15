@@ -148,4 +148,5 @@ packer.startup(function(use)
   use 'rcarriga/nvim-notify'
   use 'stevearc/dressing.nvim'
   use 'stevearc/overseer.nvim'
+  use 'jamestthompson3/nvim-remote-containers'
 end)
