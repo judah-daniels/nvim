@@ -39,6 +39,7 @@ whichKey.register({
 
   [";"] = { name = "+Telescope" },
   [";f"] = { "<cmd>Telescope git_files<cr>", "Find Git File" },
+  [";c"] = { "<cmd>Telescope git_branches<cr>", "View Git Branches" },
   [";b"] = { "Open Recent File" },
   [";r"] = { "Search all files in git rep (ripgrep)" },
   ["sf"] = { "File Explorer" },
