@@ -32,10 +32,10 @@ whichKey.register({
   ["<leader>hR"] = { "GitSigns Reset Buffer" },
   ["<leader>hp"] = { "GitSigns Preview Hunk" },
   ["<leader>hb"] = { "GitSigns Blame Line" },
-  ["<leader>tb"] = { "GitSigns Current line blame" },
+  ["<leader>hb"] = { "GitSigns Current line blame" },
   ["<leader>hd"] = { "GitSigns Diff this" },
   ["<leader>hD"] = { "GitSigns Diff this with somthing?" },
-  ["<leader>td"] = { "GitSigns Toggle deleted" },
+  ["<leader>ht"] = { "GitSigns Toggle deleted" },
 
   [";"] = { name = "+Telescope" },
   [";f"] = { "<cmd>Telescope git_files<cr>", "Find Git File" },
@@ -47,5 +47,9 @@ whichKey.register({
   ["<leader>fn"] = { "<cmd>enew<cr>", "New File" },
 
   ["<leader>u"] = { "Undotree toggle" },
-  ["<leader>g"] = { "Open Git" }
+  ["<leader>g"] = { "Open Git" },
+
+  ["d"] = { "Debug - DAP" },
+  ["c"] = { "LSP Code action (ca)" },
+  ["r"] = { "LSP Rename (rn)" }
 })
