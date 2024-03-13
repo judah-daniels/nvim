@@ -13,3 +13,5 @@ function SetupColor(color)
   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
   vim.api.nvim_set_hl(0, "jukit_cellmarker_colors", { bg = "#1d213a" })
 end
+
+SetupColor("rose-pine");
