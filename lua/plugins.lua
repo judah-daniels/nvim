@@ -137,8 +137,9 @@ packer.startup(function(use)
   use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
 
   -- DAP
+  use { "nvim-neotest/nvim-nio" }
   use 'jay-babu/mason-nvim-dap.nvim'
-  use 'mfussenegger/nvim-dap'
+  use { 'mfussenegger/nvim-dap', requires = 'nvim-neotest/nvim-nio' }
   use 'folke/neodev.nvim'
   use 'rcarriga/nvim-dap-ui'
 

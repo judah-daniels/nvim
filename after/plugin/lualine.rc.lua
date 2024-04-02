@@ -1,8 +1,6 @@
 local status, lualine = pcall(require, "lualine")
 if (not status) then return end
 
--- vim.opt.hi Container guifg=#BADA55 guibg=Black
-
 local function hello()
   return vim.g.currentContainer
 end
@@ -25,6 +23,16 @@ lualine.setup {
       path = 0            -- 0 = just filename, 1 = relative path, 2 = absolute path
     } },
     lualine_x = {
+      { "overseer" 
+      , label = '',     -- Prefix for task counts
+      colored = true, -- Color the task icons and counts
+      symbols = {
+        [require('overseer').STATUS.FAILURE] = " ",
+        [require('overseer').STATUS.CANCELED] = " ",
+        [require('overseer').STATUS.SUCCESS] = " ",
+        [require('overseer').STATUS.RUNNING] = " ",
+      },
+      },
       {
         'diagnostics',
         sources = { "nvim_diagnostic" },
