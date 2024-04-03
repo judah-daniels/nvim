@@ -149,7 +149,6 @@ packer.startup(function(use)
   use 'stevearc/overseer.nvim'
   use 'jamestthompson3/nvim-remote-containers'
 
-  -- TODO LIST 
-  use 'folke/todo-comments.nvim'
-
+  -- TODO LIST
+  use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim"}
 end)
