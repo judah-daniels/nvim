@@ -57,3 +57,4 @@ keymap.set("n", "<leader>dc", ':DapContinue<CR>')
 
 keymap.set("n", "<leader><Space>", ':OverseerRun<CR>')
 keymap.set("n", "<leader>ot", ':OverseerToggle<CR>')
+keymap.set("n", "<leader>oa", ':OverseerQuickAction<CR>')

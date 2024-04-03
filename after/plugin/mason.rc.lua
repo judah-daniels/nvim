@@ -19,14 +19,19 @@ dap.adapters.lldb = {
   name = 'lldb'
 }
 
+dap.adapters.dockergdb = {
+  type = 'executable',
+  command = '/Volumes/CaseSensitive/vypercore/functional-model/bin/shell', -- adjust as needed, must be absolute path
+  args = {'gdb', '/work/repo/build_ninja/run_test'}, -- adjust as needed, must be absolute path
+  name = 'dockergdb'
+}
+
 dap.configurations.cpp = {
   {
     name = "Launch",
-    type = "lldb",
+    type = "dockergdb",
     request = "launch",
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
+    -- program = "/work/repo/build_ninja/run_test",
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
     args = {},

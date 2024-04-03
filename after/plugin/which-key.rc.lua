@@ -31,7 +31,6 @@ whichKey.register({
   ["<leader>hu"] = { "GitSigns Undo Stage Hunk" },
   ["<leader>hR"] = { "GitSigns Reset Buffer" },
   ["<leader>hp"] = { "GitSigns Preview Hunk" },
-  ["<leader>hb"] = { "GitSigns Blame Line" },
   ["<leader>hb"] = { "GitSigns Current line blame" },
   ["<leader>hd"] = { "GitSigns Diff this" },
   ["<leader>hD"] = { "GitSigns Diff this with somthing?" },
@@ -50,6 +49,11 @@ whichKey.register({
   ["<leader>g"] = { "Open Git" },
 
   ["d"] = { "Debug - DAP" },
+  ["<leader>dt"] = { "Debug UI Toggle" },
   ["c"] = { "LSP Code action (ca)" },
-  ["r"] = { "LSP Rename (rn)" }
+  ["r"] = { "LSP Rename (rn)" },
+
+  ["<leader><Space>"] = { "Overseer Run" },
+  ["<leader>ot"] = { "Overseer Toggle" },
+  ["<leader>oa"] = { "Overseer Quick Action List" },
 })
