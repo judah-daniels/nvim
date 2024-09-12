@@ -56,4 +56,5 @@ whichKey.register({
   ["<leader><Space>"] = { "Overseer Run" },
   ["<leader>ot"] = { "Overseer Toggle" },
   ["<leader>oa"] = { "Overseer Quick Action List" },
+  ["<leader>of"] = { "Overseer Open Float" },
 })

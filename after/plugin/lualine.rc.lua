@@ -27,10 +27,10 @@ lualine.setup {
       , label = '',     -- Prefix for task counts
       colored = true, -- Color the task icons and counts
       symbols = {
-        [require('overseer').STATUS.FAILURE] = " ",
-        [require('overseer').STATUS.CANCELED] = " ",
-        [require('overseer').STATUS.SUCCESS] = " ",
-        [require('overseer').STATUS.RUNNING] = " ",
+        [require('overseer').STATUS.FAILURE] = "",
+        [require('overseer').STATUS.CANCELED] = "",
+        [require('overseer').STATUS.SUCCESS] = "",
+        [require('overseer').STATUS.RUNNING] = "",
       },
       },
       {
@@ -61,6 +61,6 @@ lualine.setup {
     lualine_y = {},
     lualine_z = {}
   },
-  tabline = {},
+  tabline = { },
   extensions = { 'fugitive' }
 }

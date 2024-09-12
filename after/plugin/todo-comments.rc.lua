@@ -39,13 +39,15 @@ todo.setup(
     before = "", -- "fg" or "bg" or empty
     keyword = "wide", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
     after = "fg", -- "fg" or "bg" or empty
-    pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
+    pattern = [[.*<(KEYWORDS).*-.*:]], -- pattern or table of patterns, used for highlighting (vim regex)
     comments_only = true, -- uses treesitter to match keywords in comments only
     max_line_len = 400, -- ignore lines longer than this
     exclude = {}, -- list of file types to exclude highlighting
   },
   -- list of named colors where we try to extract the guifg from the
   -- list of highlight groups or use the hex color if hl not found as a fallback
+    -- VCTODO F-3: Instruction Object Missing Fault?
+
   colors = {
     error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
     warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },

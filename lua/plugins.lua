@@ -1,3 +1,4 @@
+
 local fn = vim.fn
 
 -- Auto-install packer in case it hasn't been installed.
@@ -25,6 +26,7 @@ packer.startup(function(use)
   -- Provides language parsers
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
+  use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
   -- LSP ZERO - Language Server Protocol with nice keybindings
   use {
@@ -151,4 +153,14 @@ packer.startup(function(use)
 
   -- TODO LIST
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim"}
+
+  -- QUICK FIX 
+  use 'kevinhwang91/nvim-bqf'
+  -- optional
+  use {'junegunn/fzf', run = function()
+      vim.fn['fzf#install']()
+  end
+  }
+
+
 end)
