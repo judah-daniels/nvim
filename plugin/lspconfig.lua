@@ -1,5 +1,5 @@
 -- must be setup before lspconfig
-require("neodev").setup({
+require("lazydev").setup({
   -- add any options here, or leave empty to use the default settings
 })
 

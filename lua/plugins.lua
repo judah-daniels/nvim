@@ -26,7 +26,8 @@ packer.startup(function(use)
   -- Provides language parsers
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
-  use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
+
+  -- use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
   -- LSP ZERO - Language Server Protocol with nice keybindings
   use {
@@ -142,7 +143,7 @@ packer.startup(function(use)
   use { "nvim-neotest/nvim-nio" }
   use 'jay-babu/mason-nvim-dap.nvim'
   use { 'mfussenegger/nvim-dap', requires = 'nvim-neotest/nvim-nio' }
-  use 'folke/neodev.nvim'
+  use 'folke/lazydev.nvim'
   use 'rcarriga/nvim-dap-ui'
 
   -- Tasks

@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/judah/.cache/nvim/packer_hererocks/2.1.1710088188/share/lua/5.1/?.lua;/Users/judah/.cache/nvim/packer_hererocks/2.1.1710088188/share/lua/5.1/?/init.lua;/Users/judah/.cache/nvim/packer_hererocks/2.1.1710088188/lib/luarocks/rocks-5.1/?.lua;/Users/judah/.cache/nvim/packer_hererocks/2.1.1710088188/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/judah/.cache/nvim/packer_hererocks/2.1.1710088188/lib/lua/5.1/?.so"
+local package_path_str = "/Users/judah/.cache/nvim/packer_hererocks/2.1.1753364724/share/lua/5.1/?.lua;/Users/judah/.cache/nvim/packer_hererocks/2.1.1753364724/share/lua/5.1/?/init.lua;/Users/judah/.cache/nvim/packer_hererocks/2.1.1753364724/lib/luarocks/rocks-5.1/?.lua;/Users/judah/.cache/nvim/packer_hererocks/2.1.1753364724/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/judah/.cache/nvim/packer_hererocks/2.1.1753364724/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -83,16 +83,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
-  },
-  ["auto-session"] = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/auto-session",
-    url = "https://github.com/rmagatti/auto-session"
-  },
-  ["bufferline.nvim"] = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
-    url = "https://github.com/akinsho/bufferline.nvim"
   },
   ["cmp-buffer"] = {
     loaded = true,
@@ -139,15 +129,15 @@ _G.packer_plugins = {
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/fzf",
     url = "https://github.com/junegunn/fzf"
   },
-  ["gitsigns.nvim"] = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
-    url = "https://github.com/lewis6991/gitsigns.nvim"
-  },
   ["haskell-vim"] = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/haskell-vim",
     url = "https://github.com/neovimhaskell/haskell-vim"
+  },
+  ["lazydev.nvim"] = {
+    loaded = true,
+    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/lazydev.nvim",
+    url = "https://github.com/folke/lazydev.nvim"
   },
   ["lsp-zero.nvim"] = {
     loaded = true,
@@ -183,11 +173,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/judah/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
-  },
-  ["neodev.nvim"] = {
-    loaded = true,
-    path = "/Users/judah/.local/share/nvim/site/pack/packer/start/neodev.nvim",
-    url = "https://github.com/folke/neodev.nvim"
   },
   neovim = {
     loaded = true,
@@ -436,17 +421,17 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType tmux ++once lua require("packer.load")({'vim-tmux'}, { ft = "tmux" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'vim-markdown'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
-time([[Sourcing ftdetect script at: /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], true)
-vim.cmd [[source /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]]
-time([[Sourcing ftdetect script at: /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], false)
 time([[Sourcing ftdetect script at: /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], true)
 vim.cmd [[source /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]]
 time([[Sourcing ftdetect script at: /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-tmux/ftdetect/tmux.vim]], false)
+time([[Sourcing ftdetect script at: /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], true)
+vim.cmd [[source /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]]
+time([[Sourcing ftdetect script at: /Users/judah/.local/share/nvim/site/pack/packer/opt/vim-markdown/ftdetect/markdown.vim]], false)
 vim.cmd("augroup END")
 
 _G._packer.inside_compile = false
