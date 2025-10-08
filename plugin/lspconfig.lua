@@ -3,6 +3,7 @@ require("lazydev").setup({
   -- add any options here, or leave empty to use the default settings
 })
 
+
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 
@@ -82,10 +83,13 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
--- Dafny set up (not available in mason)
-require 'lspconfig'.dafny.setup {}
-nvim_lsp.dafny.setup {}
-
+nvim_lsp.clangd.setup({
+  capabilities = capabilities,
+  cmd = { "clangd" },  -- ensure clangd is in your PATH or provide full path
+  on_attach = function(client, bufnr)
+    -- Optional: additional buffer-local config, or use what's already in your `LspAttach`
+  end,
+})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
