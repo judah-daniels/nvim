@@ -175,6 +175,8 @@ packer.startup(function(use)
   use {'junegunn/fzf', run = function()
       vim.fn['fzf#install']()
 
+  use { "startup-nvim/startup.nvim",
+    requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim"} }
 
   end
   }
