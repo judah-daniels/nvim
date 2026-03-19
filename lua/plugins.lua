@@ -41,6 +41,13 @@ packer.startup(function(use)
 
 
   -- use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
+ use {
+  "startup-nvim/startup.nvim",
+  requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim"},
+  config = function()
+    require"startup".setup()
+  end
+} 
 
   -- LSP ZERO - Language Server Protocol with nice keybindings
   use {
@@ -175,8 +182,7 @@ packer.startup(function(use)
   use {'junegunn/fzf', run = function()
       vim.fn['fzf#install']()
 
-  use { "startup-nvim/startup.nvim",
-    requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim"} }
+-- use { "startup-nvim/startup.nvim", requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim"} }
 
   end
   }
