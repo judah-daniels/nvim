@@ -4,9 +4,6 @@ require("lazydev").setup({
 })
 
 
-local status, nvim_lsp = pcall(require, "lspconfig")
-if (not status) then return end
-
 local protocol = require('vim.lsp.protocol')
 --
 -- Global mappings.
@@ -83,13 +80,17 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
-nvim_lsp.clangd.setup({
+vim.lsp.config("clangd", {
   capabilities = capabilities,
-  cmd = { "clangd" },  -- ensure clangd is in your PATH or provide full path
+  cmd = { "clangd" , 
+          "--compile-commands-dir=build",
+          "--header-insertion=never"},  -- ensure clangd is in your PATH or provide full path
   on_attach = function(client, bufnr)
     -- Optional: additional buffer-local config, or use what's already in your `LspAttach`
   end,
 })
+
+vim.lsp.enable('clangd')
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {

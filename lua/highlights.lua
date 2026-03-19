@@ -6,7 +6,7 @@ vim.opt.pumblend = 5
 vim.opt.background = 'dark'
 
 function SetupColor(color)
-  color = color or "rose-pine"
+  color = color or "gruvbox"
   vim.cmd.colorscheme(color)
 
   vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
@@ -14,4 +14,4 @@ function SetupColor(color)
   vim.api.nvim_set_hl(0, "jukit_cellmarker_colors", { bg = "#1d213a" })
 end
 
-SetupColor("rose-pine");
+SetupColor("gruvbox");

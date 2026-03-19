@@ -2,6 +2,11 @@ local keymap = vim.keymap
 
 vim.g.mapleader = ","
 
+-- OSC osc52 mappings
+keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
+keymap.set('v', '<leader>c', require('osc52').copy_visual)
+
 -- Do not yank with x
 keymap.set('n', 'x', '"_x')
 

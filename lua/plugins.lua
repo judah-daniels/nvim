@@ -26,6 +26,19 @@ packer.startup(function(use)
   -- Provides language parsers
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
+  use 'ojroques/nvim-osc52'
+
+  use({
+    'MeanderingProgrammer/render-markdown.nvim',
+    after = { 'nvim-treesitter' },
+    -- requires = { 'nvim-mini/mini.nvim', opt = true },            -- if you use the mini.nvim suite
+    -- requires = { 'nvim-mini/mini.icons', opt = true },        -- if you use standalone mini plugins
+    -- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
+    config = function()
+        require('render-markdown').setup({})
+    end,
+  })
+
 
   -- use {'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons'}
 
@@ -104,6 +117,7 @@ packer.startup(function(use)
   use 'EdenEast/nightfox.nvim'
   use 'folke/tokyonight.nvim'
   use 'rose-pine/neovim' -- my favourite
+  use 'ellisonleao/gruvbox.nvim'
 
   -- ASCIIDOC PLUGINS
   use 'habamax/vim-asciidoctor'
@@ -160,6 +174,8 @@ packer.startup(function(use)
   -- optional
   use {'junegunn/fzf', run = function()
       vim.fn['fzf#install']()
+
+
   end
   }
 
