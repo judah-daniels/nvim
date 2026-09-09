@@ -131,6 +131,17 @@ use({
         { name = "personal", path = "~/obsidian_vault" },
       },
 
+      -- Readable filenames: "cadence-and-closure.md" rather than the default
+      -- random zettel id ("1757339021-QKZP.md"), which buries the title in the
+      -- frontmatter aliases. Collisions get -2, -3 appended.
+      note_id_func = require("obsidian.builtin").title_id,
+
+      -- Rewrite wikilinks when a note is renamed or moved (:Obsidian rename, or
+      -- an LSP-aware file explorer). Off by default.
+      link = {
+        auto_update = true,
+      },
+
       daily_notes = {
         folder = "daily_note",
         date_format = "%Y/%m-%B/%Y-%m-%d-%A",
@@ -176,6 +187,10 @@ use({
     map("n", "<leader>os", "<cmd>Obsidian search<cr>",          { desc = "Search vault" })
     map("n", "<leader>oc", "<cmd>Obsidian toggle_checkbox<cr>", { desc = "Toggle checkbox" })
     map("n", "<leader>ob", "<cmd>Obsidian backlinks<cr>",       { desc = "Backlinks" })
+    map("n", "<leader>oq", "<cmd>Obsidian quick_switch<cr>",    { desc = "Open note by name" })
+    map("n", "<leader>ot", "<cmd>Obsidian tags<cr>",            { desc = "Browse tags" })
+    -- Visual: pull the selection out into its own note, leaving a link behind.
+    map("x", "<leader>oe", ":<C-u>Obsidian extract_note<cr>",   { desc = "Extract selection to note" })
   end,
 })
 
