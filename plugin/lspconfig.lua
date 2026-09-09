@@ -1,16 +1,19 @@
+-- LSP setup. This file lives in plugin/, so Neovim sources it automatically on
+-- startup -- there is no `require` for it in init.lua.
+
 -- must be setup before lspconfig
-require("lazydev").setup({
-  -- add any options here, or leave empty to use the default settings
-})
+local lazydev_ok, lazydev = pcall(require, "lazydev")
+if lazydev_ok then
+  lazydev.setup({
+    -- add any options here, or leave empty to use the default settings
+  })
+end
 
-
-local protocol = require('vim.lsp.protocol')
---
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end)
+vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- Use LspAttach autocommand to only map the following keys
@@ -44,76 +47,49 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
-vim.lsp.set_log_level("debug")
-
-
-protocol.CompletionItemKind = {
-  '', -- Text
-  '', -- Method
-  '', -- Function
-  '', -- Constructor
-  '', -- Field
-  '', -- Variable
-  '', -- Class
-  'ﰮ', -- Interface
-  '', -- Module
-  '', -- Property
-  '', -- Unit
-  '', -- Value
-  '', -- Enum
-  '', -- Keyword
-  '﬌', -- Snippet
-  '', -- Color
-  '', -- File
-  '', -- Reference
-  '', -- Folder
-  '', -- EnumMember
-  '', -- Constant
-  '', -- Struct
-  '', -- Event
-  'ﬦ', -- Operator
-  '', -- TypeParameter
-}
+-- vim.lsp.set_log_level("debug")  -- noisy; only for debugging a server
 
 -- Set up completion using nvim_cmp with LSP source
-local capabilities = require('cmp_nvim_lsp').default_capabilities(
-  vim.lsp.protocol.make_client_capabilities()
-)
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local cmp_lsp_ok, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
+if cmp_lsp_ok then
+  capabilities = cmp_lsp.default_capabilities(capabilities)
+end
 
 vim.lsp.config("clangd", {
   capabilities = capabilities,
-  cmd = { "clangd" , 
-          "--compile-commands-dir=build",
-          "--header-insertion=never"},  -- ensure clangd is in your PATH or provide full path
+  cmd = { "clangd",
+    "--compile-commands-dir=build",
+    "--header-insertion=never" }, -- ensure clangd is in your PATH or provide full path
   on_attach = function(client, bufnr)
     -- Optional: additional buffer-local config, or use what's already in your `LspAttach`
   end,
 })
 
-vim.lsp.enable('clangd')
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    update_in_insert = false,
-    virtual_text = { spacing = 4, prefix = "●" },
-    severity_sort = true,
-  }
-)
-
--- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+-- Only enable servers whose binary is actually here, so machines without them
+-- (e.g. the Pi) don't error on every C/C++ buffer.
+if vim.fn.executable("clangd") == 1 then
+  vim.lsp.enable('clangd')
 end
 
 vim.diagnostic.config({
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
   virtual_text = {
-    prefix = '●'
+    spacing = 4,
+    prefix = '●',
   },
-  update_in_insert = true,
+  -- Diagnostic symbols in the sign column (gutter)
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN] = " ",
+      [vim.diagnostic.severity.HINT] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+    },
+  },
   float = {
-    source = "always", -- Or "if_many"
+    source = true, -- Or "if_many"
   },
 })
