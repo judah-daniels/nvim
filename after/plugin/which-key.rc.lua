@@ -2,6 +2,9 @@ local status, whichKey = pcall(require, "which-key")
 if (not status) then return end
 
 whichKey.setup {
+  -- E-ink: the popup appears 200ms into a pending chord by default, so pausing
+  -- mid-<leader> flashes a full-width window across the panel. Wait longer.
+  delay = 1500,
   plugins = {
     spelling = {
       enabled = true

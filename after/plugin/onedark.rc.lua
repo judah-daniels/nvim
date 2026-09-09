@@ -1,3 +1,9 @@
+-- Dormant. The colorscheme is pinned in lua/highlights.lua (dayfox); this
+-- file applies onedark and would override it, because after/plugin runs
+-- after init.lua. It is inert today only because onedark.nvim is not
+-- installed. Remove the `do return end` below to switch back to onedark.
+do return end
+
 local status, n = pcall(require, "onedark")
 if (not status) then return end
 

@@ -1,6 +1,7 @@
 
 local fn = vim.fn
 
+
 -- Auto-install packer in case it hasn't been installed.
 vim.g.package_home = fn.stdpath("data") .. "/site/pack/packer/"
 local packer_install_dir = vim.g.package_home .. "/opt/packer.nvim"
@@ -35,7 +36,16 @@ packer.startup(function(use)
     -- requires = { 'nvim-mini/mini.icons', opt = true },        -- if you use standalone mini plugins
     -- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
     config = function()
-        require('render-markdown').setup({})
+        require('render-markdown').setup({
+          -- E-ink: the 100ms default debounce re-renders while you type.
+          --
+          -- anti_conceal stays ON (the default). Turning it off saves two
+          -- lines of redraw per cursor move, but it also decorates the cursor
+          -- line, and the icons are nerd-font private-use glyphs the Kindle
+          -- terminal font has no characters for -- so the line being edited
+          -- filled up with tofu. Plain text on the cursor line wins.
+          debounce = 500,
+        })
     end,
   })
 
@@ -109,6 +119,65 @@ packer.startup(function(use)
 
   -- Surround - remove brackets etc, very nifty
   use 'kylechui/nvim-surround'
+
+use({
+  "obsidian-nvim/obsidian.nvim",
+  tag = "*",
+  config = function()
+    require("obsidian").setup({
+      legacy_commands = false,
+
+      workspaces = {
+        { name = "personal", path = "~/obsidian_vault" },
+      },
+
+      daily_notes = {
+        folder = "daily_note",
+        date_format = "%Y/%m-%B/%Y-%m-%d-%A",
+        alias_format = "%A, %B %d, %Y",
+        template = "Daily Note Template.md",
+        workdays_only = false,
+      },
+
+      ui = { enable = false },
+
+      -- Two-state checkboxes: <leader>oc goes - [ ] <-> - [x] and stops there.
+      -- The default order cycles through ~, ! and > as well. Lines already in
+      -- one of those states fall back to - [ ] on the next toggle.
+      checkbox = {
+        order = { " ", "x" },
+      },
+
+      templates = {
+        folder = "random/templates",
+        date_format = "%Y-%m-%d",
+        time_format = "%H:%M",
+        substitutions = {
+          -- {{note_date}} -> the *note's own* date, e.g. "Tuesday, September 08, 2026".
+          -- {{date}} is always today, which is wrong for yesterday/tomorrow notes.
+          note_date = function(ctx, suffix)
+            local id = ctx.partial_note and tostring(ctx.partial_note.id) or ""
+            local y, m, d = id:match "^(%d%d%d%d)-(%d%d)-(%d%d)"
+            if not y then
+              return ""
+            end
+            local time = os.time { year = tonumber(y), month = tonumber(m), day = tonumber(d), hour = 12 }
+            return os.date(suffix and #suffix > 0 and suffix or "%A, %B %d, %Y", time)
+          end,
+        },
+      },
+    })
+
+    local map = vim.keymap.set
+    map("n", "<leader>od", "<cmd>Obsidian today<cr>",           { desc = "Daily note" })
+    map("n", "<leader>oy", "<cmd>Obsidian yesterday<cr>",       { desc = "Yesterday" })
+    map("n", "<leader>oD", "<cmd>Obsidian dailies<cr>",         { desc = "Browse dailies" })
+    map("n", "<leader>on", "<cmd>Obsidian new<cr>",             { desc = "New note" })
+    map("n", "<leader>os", "<cmd>Obsidian search<cr>",          { desc = "Search vault" })
+    map("n", "<leader>oc", "<cmd>Obsidian toggle_checkbox<cr>", { desc = "Toggle checkbox" })
+    map("n", "<leader>ob", "<cmd>Obsidian backlinks<cr>",       { desc = "Backlinks" })
+  end,
+})
 
   -- Git Support
   use 'tpope/vim-fugitive'

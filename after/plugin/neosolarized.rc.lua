@@ -1,3 +1,9 @@
+-- Dormant. The colorscheme is pinned in lua/highlights.lua (dayfox); this
+-- file applies neosolarized and would override it, because after/plugin runs
+-- after init.lua. It is inert today only because neosolarized.nvim + colorbuddy is not
+-- installed. Remove the `do return end` below to switch back to neosolarized.
+do return end
+
 local status, n = pcall(require, "neosolarized")
 if (not status) then return end
 

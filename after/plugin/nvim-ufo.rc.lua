@@ -1,7 +1,7 @@
 local status, ufo = pcall(require, "ufo")
 if (not status) then return end
 
-vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldcolumn = '0' -- no fold gutter: keep the left margin minimal on the e-ink screen
 vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
