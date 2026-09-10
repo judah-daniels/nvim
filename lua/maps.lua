@@ -61,8 +61,8 @@ keymap.set("n", "<leader>db", ':DapToggleBreakpoint<CR>')
 keymap.set("n", "<leader>dc", ':DapContinue<CR>')
 
 keymap.set("n", "<leader><Space>", ':OverseerRun<CR>')
-keymap.set("n", "<leader>oa", ':OverseerQuickAction<CR>')
-keymap.set("n", "<leader>of", ':OverseerQuickAction open float<CR>')
+keymap.set("n", "<leader>ta", ':OverseerQuickAction<CR>')
+keymap.set("n", "<leader>tA", ':OverseerQuickAction open float<CR>')
 
 local VAULT = vim.fn.expand("~/obsidian_vault")
 

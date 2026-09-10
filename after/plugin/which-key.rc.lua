@@ -36,11 +36,14 @@ whichKey.add({
     { "<leader>hp", desc = "GitSigns Preview Hunk" },
     { "<leader>ht", desc = "GitSigns Toggle deleted" },
     { "<leader>hu", desc = "GitSigns Undo Stage Hunk" },
-    { "<leader>oa", desc = "Overseer Quick Action List" },
-    { "<leader>of", desc = "Overseer Open Float" },
-    { "<leader>ot", desc = "Overseer Toggle" },
+    -- <leader>o is the Obsidian namespace; every key under it is defined with
+    -- its own desc in plugins.lua or maps.lua, so which-key picks them up.
+    { "<leader>o", group = "Obsidian" },
     { "<leader>q", desc = "LSP list errors" },
     { "<leader>rn", desc = "LSP Rename" },
+    { "<leader>t", group = "Tasks" },
+    { "<leader>ta", desc = "Overseer Quick Action List" },
+    { "<leader>tA", desc = "Overseer Open Float" },
     { "<leader>u", desc = "Undotree toggle" },
     { "<leader>wl", desc = "Show workspace folders" },
     { "K", desc = "Hover LSP info" },

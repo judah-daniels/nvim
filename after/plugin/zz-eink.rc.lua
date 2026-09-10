@@ -68,4 +68,15 @@ end
 local ok_cmp, cmp = pcall(require, 'cmp')
 if ok_cmp then
   cmp.setup({ completion = { autocomplete = false } })
+
+  -- Markdown is the exception. Obsidian serves wikilink/tag completion over
+  -- its in-process LSP (obsidian-ls), and having to reach for <C-Space> after
+  -- every '[[' makes linking notes together too slow to bother with. The
+  -- popup only opens once a trigger character has been typed, so the cost is
+  -- confined to the few keystrokes it takes to pick a note.
+  cmp.setup.filetype('markdown', {
+    completion = {
+      autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged },
+    },
+  })
 end

@@ -157,6 +157,13 @@ use({
       -- one of those states fall back to - [ ] on the next toggle.
       checkbox = {
         order = { " ", "x" },
+
+        -- Set lists are plain lists of links, not checkbox lists. With the
+        -- default (true), <CR> anywhere off a link turns the line under the
+        -- cursor into "- [ ] ...", so a mistimed Enter while writing a set
+        -- adds checkbox syntax you did not ask for. Toggling checkboxes that
+        -- already exist still works -- that is `enabled`, not this.
+        create_new = false,
       },
 
       templates = {
@@ -188,9 +195,133 @@ use({
     map("n", "<leader>oc", "<cmd>Obsidian toggle_checkbox<cr>", { desc = "Toggle checkbox" })
     map("n", "<leader>ob", "<cmd>Obsidian backlinks<cr>",       { desc = "Backlinks" })
     map("n", "<leader>oq", "<cmd>Obsidian quick_switch<cr>",    { desc = "Open note by name" })
-    map("n", "<leader>ot", "<cmd>Obsidian tags<cr>",            { desc = "Browse tags" })
+    map("n", "<leader>o#", "<cmd>Obsidian tags<cr>",            { desc = "Browse tags" })
     -- Visual: pull the selection out into its own note, leaving a link behind.
     map("x", "<leader>oe", ":<C-u>Obsidian extract_note<cr>",   { desc = "Extract selection to note" })
+
+    -- Music. Tunes and gigs have one fixed template each, so there is nothing
+    -- to choose: typing the title is the whole interaction.
+    --
+    -- Not `:Obsidian new_from_template <path>` -- that command reads its LAST
+    -- argument as the template name, so a single argument leaves the id empty
+    -- and sends the tune title off to be looked up as a template. Template
+    -- names contain spaces ("Tune Template"), which the same split would
+    -- mangle anyway. Going through the Lua API also lets us set the aliases,
+    -- which `new_from_template` never passes to Note.create.
+    local Note = require "obsidian.note"
+    local builtin = require "obsidian.builtin"
+    local Path = require "obsidian.path"
+
+    -- Tunes added before note_id_func are named "Georgia on My Mind.md";
+    -- new ones slugify to "georgia-on-my-mind.md". On a case-sensitive
+    -- filesystem those are two different files, so comparing paths would wave
+    -- the duplicate straight through. Compare slugs of the existing stems.
+    local function find_existing(dir, slug)
+      local d = Path.new(Obsidian.dir) / dir
+      if not d:exists() then
+        return nil
+      end
+      for name, typ in vim.fs.dir(tostring(d)) do
+        if typ == "file" and name:sub(-3) == ".md" and builtin.title_to_slug(name:sub(1, -4)) == slug then
+          return d / name
+        end
+      end
+    end
+
+    local function new_music_note(dir, template)
+      return function()
+        vim.ui.input({ prompt = "Title: " }, function(input)
+          local title = vim.trim(input or "")
+          if title == "" then
+            return
+          end
+
+          local slug = builtin.title_to_slug(title)
+
+          local existing = find_existing(dir, slug)
+          if existing then
+            vim.notify(("Already have %s -- opening it"):format(existing.name), vim.log.levels.WARN)
+            vim.cmd.edit(tostring(existing))
+            return
+          end
+
+          -- verbatim skips note_id_func, whose collision handling is to
+          -- quietly append -2; the check above is the guard instead. The raw
+          -- title goes in as an alias so [[It could happen to you]] resolves
+          -- to the slugified filename.
+          local note = Note.create {
+            id = ("%s/%s"):format(dir, slug),
+            title = title,
+            aliases = { title },
+            template = template,
+            verbatim = true,
+          }
+          note:write()
+          note:open { sync = true }
+        end)
+      end
+    end
+    map("n", "<leader>oT", new_music_note("music/Tunes", "Tune Template.md"), { desc = "New tune" })
+    map("n", "<leader>oG", new_music_note("music/Gigs", "Gig Template.md"), { desc = "New gig" })
+
+    -- Writing a setlist: type [[Blues for Alice]] in a gig note and press <CR>
+    -- on the link. obsidian offers
+    --     [Y]es / Yes with [T]emplate / Yes as [U]nique Note / [N]o
+    -- and T is the one we want -- except that stock it opens the template
+    -- picker every time and, because new_notes_location is "current_dir",
+    -- drops the note next to the gig in music/Gigs with no alias.
+    --
+    -- So intercept just that branch: within music/, a bare link is a tune, so
+    -- build it in music/Tunes from Tune Template with the typed text as its
+    -- alias. Everything else -- `:Obsidian new_from_template`, links outside
+    -- music/, an explicitly chosen template -- falls through untouched, and
+    -- obsidian's own callback still rewrites the link, so the line ends up as
+    -- [[blues-for-alice|Blues for Alice]].
+    local actions = require "obsidian.actions"
+    local orig_new_from_template = actions.new_from_template
+
+    actions.new_from_template = function(id, template, callback, opts)
+      opts = opts or {}
+      local src = opts.source_path
+      local music_root = tostring(Path.new(Obsidian.dir) / "music")
+      local bare = type(id) == "string" and not id:find("/", 1, true)
+      local in_music = type(src) == "string" and vim.startswith(src, music_root)
+
+      if not (template == nil and bare and in_music) then
+        return orig_new_from_template(id, template, callback, opts)
+      end
+
+      local title = vim.trim(id)
+      local slug = builtin.title_to_slug(title)
+
+      -- Already have the tune, possibly still under its old Title Case name:
+      -- link to it rather than making a second note.
+      local note
+      local existing = find_existing("music/Tunes", slug)
+      if existing then
+        vim.notify(("Linking to existing %s"):format(existing.name), vim.log.levels.INFO)
+        note = Note.from_file(existing)
+      else
+        note = Note.create {
+          id = ("music/Tunes/%s"):format(slug),
+          title = title,
+          aliases = { title },
+          template = "Tune Template.md",
+          verbatim = true,
+        }
+        note:write()
+      end
+
+      if callback then
+        callback(note)
+      end
+    end
+
+    -- Rep lists: the nvim equivalent of the Dataview blocks in music/Reps,
+    -- which render as raw code fences here.
+    map("n", "<leader>or", "<cmd>Obsidian tags status/ready status/solid<cr>", { desc = "Jam list (ready + solid)" })
+    map("n", "<leader>ol", "<cmd>Obsidian tags status/learning<cr>", { desc = "Tunes: learning" })
+    map("n", "<leader>oR", "<cmd>Obsidian tags status/rusty<cr>", { desc = "Tunes: needs reviving" })
   end,
 })
 
