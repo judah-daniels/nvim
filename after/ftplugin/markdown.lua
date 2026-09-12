@@ -16,6 +16,19 @@
 -- "expr", and ufo sets it to "manual", so <CR> inside the frontmatter does
 -- nothing special here; use za.
 
+-- <leader>oa: align the pipe table under the cursor. :TableFormat is
+-- vim-markdown's buffer-local command (tabular underneath); the table needs
+-- a separator row (|--|--|) as its second line, like Obsidian's own editor.
+vim.keymap.set("n", "<leader>oa", function()
+  local view = vim.fn.winsaveview()
+  vim.cmd "TableFormat"
+  -- Tabularize pads every column, including the empty one before the first
+  -- pipe, so each row comes back with a leading space. Strip it from the
+  -- paragraph (the table) under the cursor.
+  vim.cmd [[silent! '{,'}s/^ |/|/e]]
+  vim.fn.winrestview(view)
+end, { buffer = true, desc = "Align table" })
+
 local ok, ufo = pcall(require, "ufo")
 if not ok then
   return
