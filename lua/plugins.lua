@@ -368,7 +368,16 @@ use({
   use 'sirver/ultisnips'
 
   -- Markdown Support
-  use({ "plasticboy/vim-markdown", ft = { "markdown" } })
+  use({
+    "plasticboy/vim-markdown",
+    ft = { "markdown" },
+    setup = function()
+      -- Folding comes from nvim-ufo (LSP ranges from obsidian-ls, incl. the
+      -- frontmatter). vim-markdown's heading folder re-sets foldmethod=expr on
+      -- every BufWinEnter and clobbers ufo's folds, so keep it off.
+      vim.g.vim_markdown_folding_disabled = 1
+    end,
+  })
   use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, }
   -- Vim tabular plugin for manipulate tabular, required by markdown plugins
   use { 'godlygeek/tabular', cmd = { "Tabularize" } }

@@ -27,4 +27,11 @@ for _, ls in ipairs(language_servers) do
   })
 end
 
-ufo.setup()
+ufo.setup({
+  -- Close folds of these LSP kinds when a buffer is first shown. obsidian-ls
+  -- reports a note's YAML frontmatter as an "imports" fold, so Obsidian notes
+  -- open with the frontmatter collapsed (see after/ftplugin/markdown.lua).
+  close_fold_kinds_for_ft = {
+    markdown = { 'imports' },
+  },
+})
