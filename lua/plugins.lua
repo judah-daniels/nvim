@@ -3,7 +3,9 @@ local fn = vim.fn
 
 -- Auto-install packer in case it hasn't been installed.
 vim.g.package_home = fn.stdpath("data") .. "/site/pack/packer/"
-local packer_install_dir = vim.g.package_home .. "/opt/packer.nvim"
+-- packer installs itself into start/ (it is declared with `use` below), so
+-- that is where the bootstrap must look.
+local packer_install_dir = vim.g.package_home .. "start/packer.nvim"
 local packer_repo = "https://github.com/wbthomason/packer.nvim"
 local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
 
@@ -24,7 +26,8 @@ packer.startup(function(use)
   use 'wbthomason/packer.nvim'
 
   -- Provides language parsers
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  -- main branch: the old master branch is archived and crashes on Neovim 0.12
+  use { 'nvim-treesitter/nvim-treesitter', branch = 'main', run = ':TSUpdate' }
 
   use 'ojroques/nvim-osc52'
 
@@ -101,7 +104,7 @@ packer.startup(function(use)
 
   use 'windwp/nvim-autopairs'       -- Auto close parentheses etc
   use 'windwp/nvim-ts-autotag'      -- Auto rename and close html tags
-  use 'norcalli/nvim-colorizer.lua' -- Show HEX colours in the editor. #8080ff
+  use 'catgoose/nvim-colorizer.lua'  -- Show HEX colours in the editor. #8080ff (maintained fork of norcalli/)
   use 'folke/zen-mode.nvim'         -- Zen Mode, :ZenMode to remove distractions
 
   -- TMUX integration - clipboard etc.
@@ -179,13 +182,9 @@ packer.startup(function(use)
   -- QUICK FIX 
   use 'kevinhwang91/nvim-bqf'
   -- optional
-  use {'junegunn/fzf', run = function()
-      vim.fn['fzf#install']()
-
--- use { "startup-nvim/startup.nvim", requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim"} }
-
-  end
-  }
+  use { 'junegunn/fzf', run = function()
+    vim.fn['fzf#install']()
+  end }
 
 
 end)

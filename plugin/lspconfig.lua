@@ -9,8 +9,8 @@ local protocol = require('vim.lsp.protocol')
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end)
+vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- Use LspAttach autocommand to only map the following keys
@@ -44,7 +44,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
-vim.lsp.set_log_level("debug")
+-- LSP log level. This used to be "debug" (via the deprecated vim.lsp.set_log_level),
+-- which grew ~/.local/state/nvim/lsp.log to 150 MB. Bump to DEBUG only while
+-- troubleshooting a server.
+vim.lsp.log.set_level(vim.log.levels.WARN)
 
 
 protocol.CompletionItemKind = {
@@ -92,28 +95,26 @@ vim.lsp.config("clangd", {
 
 vim.lsp.enable('clangd')
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    update_in_insert = false,
-    virtual_text = { spacing = 4, prefix = "●" },
-    severity_sort = true,
-  }
-)
-
--- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
-
+-- Diagnostics display. Replaces the old vim.lsp.with(on_publish_diagnostics)
+-- handler (removed in Neovim 0.12) and the legacy DiagnosticSign* sign_define
+-- calls (ignored since 0.10) - neither had any effect any more.
 vim.diagnostic.config({
-  virtual_text = {
-    prefix = '●'
-  },
+  underline = true,
+  severity_sort = true,
   update_in_insert = true,
+  virtual_text = {
+    spacing = 4,
+    prefix = '●',
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN]  = " ",
+      [vim.diagnostic.severity.HINT]  = " ",
+      [vim.diagnostic.severity.INFO]  = " ",
+    },
+  },
   float = {
-    source = "always", -- Or "if_many"
+    source = true, -- or "if_many"
   },
 })

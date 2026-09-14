@@ -1,60 +1,79 @@
+-- nvim-treesitter (main branch). Highlighting is done by Neovim itself via
+-- vim.treesitter.start(); the plugin only installs parsers and queries.
+--
+-- Parsers are compiled with the tree-sitter CLI (>= 0.26 required). The system
+-- one is too old, so prefer the one installed from this repo's package.json
+-- (npm install) when it exists.
+local ts_bin = vim.fn.stdpath('config') .. '/node_modules/.bin'
+if vim.uv.fs_stat(ts_bin .. '/tree-sitter') and not vim.env.PATH:find(ts_bin, 1, true) then
+  vim.env.PATH = ts_bin .. ':' .. vim.env.PATH
+end
 
-
-local status, ts = pcall(require, "nvim-treesitter.configs")
+local status, ts = pcall(require, "nvim-treesitter")
 if (not status) then return end
 
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "tsx",
-    "toml",
-    "fish",
-    "php",
-    "json",
-    "yaml",
-    "css",
-    "html",
-    "haskell",
-    "latex",
-    "rust",
-  },
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-  -- List of parsers to ignore installing (or "all")
-  ignore_install = { "javascript" },
-
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-  highlight = {
-    enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    disable = { "c", "rust" },
-    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-    disable = function(lang, buf)
-        local max_filesize = 100 * 1024 -- 100 KB
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
-            return true
-        end
-    end,
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
+-- Parsers that should always be present. Installed asynchronously on startup
+-- if missing; :TSUpdate (run by packer after updates) keeps them current.
+local ensure_installed = {
+  "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "tsx",
+  "toml",
+  "fish",
+  "php",
+  "json",
+  "yaml",
+  "css",
+  "html",
+  "haskell",
+  "latex",
+  "rust",
 }
 
--- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
--- parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+local installed = ts.get_installed()
+local missing = vim.tbl_filter(function(lang)
+  return not vim.list_contains(installed, lang)
+end, ensure_installed)
+if #missing > 0 then
+  ts.install(missing)
+end
+
+local max_filesize = 100 * 1024 -- skip treesitter highlighting for files over 100 KB
+local install_attempted = {}
+
+local function start_highlight(buf, lang)
+  local ok, err = pcall(vim.treesitter.start, buf, lang)
+  if not ok then
+    vim.notify_once(("treesitter: could not start for %s: %s"):format(lang, err), vim.log.levels.WARN)
+  end
+end
+
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('user_treesitter', { clear = true }),
+  desc = 'Treesitter highlighting; auto-installs a missing parser on first use',
+  callback = function(args)
+    local buf = args.buf
+    local lang = vim.treesitter.language.get_lang(args.match)
+    if not lang then return end
+
+    local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
+    if ok and stats and stats.size > max_filesize then return end
+
+    if vim.treesitter.language.add(lang) then
+      start_highlight(buf, lang)
+      return
+    end
+
+    -- Parser not installed: install it once, then start highlighting.
+    if install_attempted[lang] then return end
+    install_attempted[lang] = true
+    if not vim.list_contains(ts.get_available(), lang) then return end
+
+    ts.install(lang):await(function(err)
+      if err then return end
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(buf) and vim.treesitter.language.add(lang) then
+          start_highlight(buf, lang)
+        end
+      end)
+    end)
+  end,
+})
