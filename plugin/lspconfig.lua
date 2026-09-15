@@ -47,7 +47,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
--- vim.lsp.set_log_level("debug")  -- noisy; only for debugging a server
+-- LSP log level. This used to be "debug" (via the deprecated vim.lsp.set_log_level),
+-- which grew ~/.local/state/nvim/lsp.log to 150 MB. Bump to DEBUG only while
+-- troubleshooting a server.
+vim.lsp.log.set_level(vim.log.levels.WARN)
 
 -- Set up completion using nvim_cmp with LSP source
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -72,6 +75,9 @@ if vim.fn.executable("clangd") == 1 then
   vim.lsp.enable('clangd')
 end
 
+-- Diagnostics display. Replaces the old vim.lsp.with(on_publish_diagnostics)
+-- handler (removed in Neovim 0.12) and the legacy DiagnosticSign* sign_define
+-- calls (ignored since 0.10) - neither had any effect any more.
 vim.diagnostic.config({
   underline = true,
   update_in_insert = false,

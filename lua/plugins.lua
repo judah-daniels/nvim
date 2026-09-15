@@ -4,7 +4,9 @@ local fn = vim.fn
 
 -- Auto-install packer in case it hasn't been installed.
 vim.g.package_home = fn.stdpath("data") .. "/site/pack/packer/"
-local packer_install_dir = vim.g.package_home .. "/opt/packer.nvim"
+-- packer installs itself into start/ (it is declared with `use` below), so
+-- that is where the bootstrap must look.
+local packer_install_dir = vim.g.package_home .. "start/packer.nvim"
 local packer_repo = "https://github.com/wbthomason/packer.nvim"
 local install_cmd = string.format("10split |term git clone --depth=1 %s %s", packer_repo, packer_install_dir)
 
@@ -25,7 +27,8 @@ packer.startup(function(use)
   use 'wbthomason/packer.nvim'
 
   -- Provides language parsers
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  -- main branch: the old master branch is archived and crashes on Neovim 0.12
+  use { 'nvim-treesitter/nvim-treesitter', branch = 'main', run = ':TSUpdate' }
 
   use 'ojroques/nvim-osc52'
 
@@ -55,7 +58,32 @@ packer.startup(function(use)
   "startup-nvim/startup.nvim",
   requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim"},
   config = function()
-    require"startup".setup()
+    require"startup".setup({
+    options = {
+        mapping_keys = false, -- display mapping (e.g. <leader>ff)
+
+        -- if < 1 fraction of screen width
+        -- if > 1 numbers of column
+        cursor_column = 0.5,
+
+        after = function() -- function that gets executed at the end
+        end,
+        empty_lines_between_mappings = true, -- add an empty line between mapping/commands
+        disable_statuslines = true, -- disable status-, buffer- and tablines
+        paddings = {5,2}, -- amount of empty lines before each section (must be equal to amount of sections)
+    },
+    mappings = {
+      execute_command = "<CR>",
+      open_file = "o",
+      open_file_split = "<c-o>",
+      open_section = "<TAB>",
+      open_help = "?",
+    },
+    colors = {
+      background = "#1f2227",
+      folded_section = "#56b6c2", -- the color of folded sections
+    },
+  })
   end
 } 
 
@@ -111,7 +139,7 @@ packer.startup(function(use)
 
   use 'windwp/nvim-autopairs'       -- Auto close parentheses etc
   use 'windwp/nvim-ts-autotag'      -- Auto rename and close html tags
-  use 'norcalli/nvim-colorizer.lua' -- Show HEX colours in the editor. #8080ff
+  use 'catgoose/nvim-colorizer.lua'  -- Show HEX colours in the editor. #8080ff (maintained fork of norcalli/)
   use 'folke/zen-mode.nvim'         -- Zen Mode, :ZenMode to remove distractions
 
   -- TMUX integration - clipboard etc.
@@ -403,13 +431,9 @@ use({
   -- QUICK FIX 
   use 'kevinhwang91/nvim-bqf'
   -- optional
-  use {'junegunn/fzf', run = function()
-      vim.fn['fzf#install']()
-
--- use { "startup-nvim/startup.nvim", requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim"} }
-
-  end
-  }
+  use { 'junegunn/fzf', run = function()
+    vim.fn['fzf#install']()
+  end }
 
 
 end)
